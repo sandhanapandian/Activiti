@@ -30,6 +30,8 @@ public class ActivitiUtilService {
 
 	private static final String ENROLLMENT_PROCESS_KEY = "enrollmentProcess";
 
+	private static final String INTERVIEW_PROCESS_KEY = "interviewProcess";
+
 	@Autowired
 	private RuntimeService runtimeService;
 	
@@ -48,6 +50,17 @@ public class ActivitiUtilService {
 			return runtimeService.startProcessInstanceByKey(ENROLLMENT_PROCESS_KEY, vars);
 		} catch (Exception e) {
 			log.error("Exception while starting activity", e);
+			return null;
+		}
+	}
+
+
+
+	public ProcessInstance startInterviewBPMNProcess(Map<String, Object> vars) {
+		try {
+			return runtimeService.startProcessInstanceByKey(INTERVIEW_PROCESS_KEY, vars);
+		} catch (Exception e) {
+			log.error("Exception while starting INTERVIEW_PROCESS_KEY activity", e);
 			return null;
 		}
 	}
@@ -217,9 +230,8 @@ public class ActivitiUtilService {
     }
 
 
-    public void completeTask(String taskId, String taskTO){
+    public void completeTask(String taskId, Map<String, Object> variables){
 
-		Map<String, Object> variables = new HashMap<String, Object>();
 		
 		taskService.complete(taskId, variables);
     }
